@@ -2,9 +2,6 @@
 //
 
 #include <stdio.h>
-#include <vector>
-
-std::vector<int> test;
 
 template<typename resource_type>
 class dynamic_array // cause it is objectively a better name than... Vector...
