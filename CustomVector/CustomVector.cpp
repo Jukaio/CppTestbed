@@ -31,6 +31,12 @@ public:
         next = front;
     }
 
+    ~dynamic_array()
+    {
+        free(front, back);
+        next = nullptr; // just for consistency
+    }
+
     void push_back(const resource_type& element) 
     {
         try_resize();
@@ -116,6 +122,8 @@ public:
     {
         next = front;
     }
+
+    // Reset function, to also reset capacity to 1 :) 
 
 private:
     static void allocate(iterator& begin, iterator& end, int capacity) 
