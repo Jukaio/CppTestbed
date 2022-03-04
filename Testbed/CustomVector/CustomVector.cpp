@@ -2,11 +2,76 @@
 //
 
 #include <stdio.h>
+#include <math.h>
+
+int abs(const int& a)
+{
+    if (a < 0) {
+        return -a;
+    }
+    return a;
+}
+
+float celsius_to_fahrenheit(float celsius)
+{
+    return celsius * 9.0f / 5.0f + 32.0f;
+}
+
+float is_odd(int number)
+{
+    return (number & 1);
+}
+
+long int table[] = { 10, 100, 1000, 10000, 1000000 };
+#define TABLE_LENGHT sizeof(table) / sizeof(long int)
+
+int bisect_log10(long int n, int s, int e) {
+    int a = (e - s) / 2 + s;
+    if (s >= e)
+        return s;
+    if ((table[a] - n) <= 0)
+        return bisect_log10(n, a + 1, e);
+    else
+        return bisect_log10(n, s, a);
+}
+
+int fast_log10(long int n) {
+    return bisect_log10(n, 0, TABLE_LENGHT);
+}
+
+// Make sure digits buffer is big enough : ) 
+unsigned int count_digits(unsigned int number)
+{
+    auto log = log10(number);
+    auto rounded = lround(log);
+    return rounded + 1;
+}
+
+void number_to_digits(unsigned int number, char** digits, int count)
+{
+    const float base_number = 10.0f;
+    const int digit_count = count_digits(number);
+
+    unsigned int next = number;
+    for (int i = 0; i < digit_count; i++)
+    {
+        int power = digit_count - i - 1;
+        int divider = base_number * base_number;
+        float use = next / divider;
+        *digits[i] = (int)use;
+        next = next % divider;
+    }
+}
+
+template<typename type>
+using memory_address = type*;
 
 template<typename resource_type>
 class dynamic_array // cause it is objectively a better name than... Vector...
 {
 public:
+    memory_address<int> x, y;
+
     //using resource_type = int;
     using resource_pointer = resource_type*;
     using iterator = resource_pointer;
@@ -165,11 +230,14 @@ private:
 
 int main()
 {
-    dynamic_array<int> arr;
-    for (int i = 0; i < 20; ++i) {
-        arr.push_back(i);
-        //printf("%d\n", arr.count());
-    }
+    printf("%d\n", fast_log10(9999));
+    printf("%d\n", fast_log10(10000));
+    printf("%d\n", fast_log10(100001));
+    //dynamic_array<int> arr;
+    //for (int i = 0; i < 20; ++i) {
+    //    arr.push_back(i);
+    //    //printf("%d\n", arr.count());
+    //}
 
     //for (int i = 0; i < 20; ++i) {
     //    int number;
@@ -185,13 +253,13 @@ int main()
     //for (auto current = arr.begin(); current < arr.end(); ++current) {
     //    printf("%d\n", *current);
     //}
-    arr.remove(arr.get(5));
-    arr.insert(0, 88);
-    arr.insert(1, 99);
-    arr.insert(19, 111);
-    arr.insert(7, 122);
+    //arr.remove(arr.get(5));
+    //arr.insert(0, 88);
+    //arr.insert(1, 99);
+    //arr.insert(19, 111);
+    //arr.insert(7, 122);
 
-    for (auto current = arr.begin(); current < arr.end(); ++current) {
-        printf("%d\n", *current);
-    }
+    //for (auto current = arr.begin(); current < arr.end(); ++current) {
+    //    printf("%d\n", *current);
+    //}
 }

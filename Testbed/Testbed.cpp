@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <vector>
-
+#include <algorithm>
 auto main() -> int
 {
     delete new int;
